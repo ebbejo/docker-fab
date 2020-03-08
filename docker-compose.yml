@@ -1,0 +1,35 @@
+### Docker-compose file for the FAB app container
+###
+### Build with:
+### docker-compose build
+
+### Instantiate a new app with:
+### mkdir ./app
+
+### To init a fab app in ./app using the container:
+#
+# docker-compose run fab bash
+# 
+### *** ENSURE that you have an app.py in ./app
+###
+### Run with: docker-compose up
+###
+
+
+### Test with: browsing to http://localhost:8080/
+###
+
+version: '2'
+
+services:
+  fab:
+    image: local/fab
+    build: .
+
+    ports:
+      - "8080:8080"
+
+    volumes:
+      - ./app:/app
+    
+    command: gunicorn --bind=0.0.0.0:8080 --chdir=/usr/src/app --reload app:app
